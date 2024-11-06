@@ -1,10 +1,10 @@
 <template>
     <div class="container pt-3">
         <div class="h1 text-center border rounded bg-light p-2 mb-3">
-            API Client
+            Music App Client
         </div>
         <div class="mb-3">
-            <u>Response data</u>:             
+            <u>Song List</u>:             
         </div>
         <pre>{{ response_data }}</pre>
 
