@@ -21,7 +21,6 @@ class AlbumModelTest(TestCase):
     def test_album_str(self):
         self.assertEqual(str(self.album), 'Test Album')
 
-
 class SongModelTest(TestCase):
     def setUp(self):
         self.artist = Artist.objects.create(artist_name='Test Artist')  # Create an artist first

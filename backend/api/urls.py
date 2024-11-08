@@ -15,11 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from .views import test_api_view
+from .views import test_api_view, fetch_artists, fetch_albums, fetch_songs
 from django.urls import path, include
+
+# Django admin login details:
+#  user: admin
+#  password: Cloud*8f
 
 urlpatterns = [
     # API entry points should be defined here
     path('test.json', test_api_view, name='api_test'),
+    path('songs.json', fetch_songs, name='songs'),
+    path('artists.json', fetch_artists, name='artist'),
+    path('albums.json', fetch_albums, name='albums'),
     path('admin/', admin.site.urls),
 ]
