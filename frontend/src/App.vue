@@ -3,7 +3,9 @@
       <div class="h1 text-center border rounded bg-light p-2 mb-3">Song List</div>
   
       <!-- Add Song Button triggers AddSongModal -->
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSongModal">Add Song</button>
+      <div class="mb-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSongModal">Add Song</button>
+      </div>
   
       <!-- Song List Table -->
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">

@@ -32,6 +32,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" @click="updateSong">Save changes</button>
+            <button class="btn btn-danger" @click="deleteSong()">Delete</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="resetForm">Close</button>
           </div>
         </div>
@@ -76,35 +77,53 @@
       async updateSong() {
         const updateUrl = `http://localhost:8000/api/songs/update/${this.currentSong.song_id}/`;
         const updatedData = {
-            song_title: this.currentSong.song_title,
-            artist: this.currentSong.artist.artist_id,
-            album: this.currentSong.album.album_id
+          song_title: this.currentSong.song_title,
+          artist: this.currentSong.artist.artist_id,
+          album: this.currentSong.album.album_id
         };
-
+  
         try {
-            const response = await fetch(updateUrl, {
+          const response = await fetch(updateUrl, {
             method: 'PUT',
             headers: {
-                'X-CSRFToken': document.cookie.split('csrftoken=')[1].split(';')[0],
-                'Content-Type': 'application/json'
+              'X-CSRFToken': document.cookie.split('csrftoken=')[1].split(';')[0],
+              'Content-Type': 'application/json'
             },
             credentials: 'same-origin',
             body: JSON.stringify(updatedData)
-            });
-
-            if (response.ok) {
+          });
+          if (response.ok) {
             this.$emit('song-updated'); // Emit event to parent to update the song list
-            // Close the modal using Bootstrap's Modal API
-            const modalElement = document.getElementById('editSongModal');
-            const modal = new bootstrap.Modal(modalElement);
-            modal.hide(); // This closes the modal
-            } else {
+            $('#editSongModal').modal('hide'); // Close modal after saving
+          } else {
             console.error('Failed to update song');
-            }
+          }
         } catch (error) {
-            console.error('Error updating song:', error);
+          console.error('Error updating song:', error);
         }
-        }
+      },
+      async deleteSong() {
+            const deleteUrl = `http://localhost:8000/api/songs/delete/${this.currentSong.song_id}/`;
+            try {
+                const response = await fetch(deleteUrl, { 
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': document.cookie.split('csrftoken=')[1].split(';')[0],
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'same-origin',
+                });
+                if (response.ok) {
+                    // Remove the song from the local list
+                    window.location.reload()
+                    console.log('Song deleted successfully');
+                } else {
+                    console.error('Failed to delete song');
+                }
+            } catch (error) {
+                console.error('Error deleting song:', error);
+            }
+        },
     }
   }
   </script>

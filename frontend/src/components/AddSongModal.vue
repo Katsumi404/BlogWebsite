@@ -87,6 +87,7 @@ export default {
                 });
                 if (response.ok) {
                     this.$emit('song-added'); // Emit event to parent when song is added
+                    window.location.reload()
                 } else {
                     console.error('Failed to add song');
                 }
