@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from .views import test_api_view, get_songs, get_albums, get_artists, delete_song, update_song, create_song
+from .views import test_api_view, get_songs, get_albums, get_artists, delete_song, update_song, create_artist, create_album, create_song
 from django.urls import path, include
 
 # Django admin login details:
@@ -31,5 +31,7 @@ urlpatterns = [
     path('songs/delete/<int:song_id>/', delete_song, name='delete_song'),
     path('songs/update/<int:song_id>/', update_song, name='update_song'),
     path('songs/create/', create_song, name='create_song'),
+    path('albums/create/', create_album, name='create_album'),
+    path('artists/create/', create_artist, name='create_artist'),
     path('admin/', admin.site.urls),
 ]

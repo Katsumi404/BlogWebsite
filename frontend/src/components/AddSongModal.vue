@@ -55,6 +55,7 @@ export default {
             filteredAlbums: []
         }
     },
+    
     methods: {
         filterAlbums() {
             if (this.currentSong.artist.artist_id) {
@@ -63,10 +64,12 @@ export default {
                 this.filteredAlbums = [];
             }
         },
+
         resetForm() {
             this.currentSong = { song_title: '', artist: { artist_id: null }, album: { album_id: null } };
             this.filteredAlbums = [];
         },
+
         async create_song() {
             const createUrl = `http://localhost:8000/api/songs/create/`;
             const updatedData = {

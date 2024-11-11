@@ -3,7 +3,9 @@
       <div class="h1 text-center border rounded bg-light p-2 mb-3">Song List</div>
   
       <!-- Add Song Button triggers AddSongModal -->
-      <div class="mb-3">
+      <div class="d-flex gap-2 mb-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addArtistModal">Add Artist</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAlbumModal">Add Album</button>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSongModal">Add Song</button>
       </div>
   
@@ -42,16 +44,29 @@
         :albums="albums"
         :songToEdit="selectedSong"
         @song-updated="fetchSongs" />
+
+      <!-- AddArtistModal Component -->
+      <AddArtistModal 
+        @artist-added="fetchArtists" />
+
+      <!-- AddAlbumModal Component -->
+      <AddAlbumModal 
+        :artists="artists"
+        @album-added="fetchAlbums" />
     </div>
   </template>
   
   <script>
   import AddSongModal from './components/AddSongModal.vue';
+  import AddAlbumModal from './components/AddAlbumModal.vue';
+  import AddArtistModal from './components/AddArtistModal.vue';
   import EditSongModal from './components/EditSongModal.vue';
   
   export default {
     components: {
       AddSongModal,
+      AddAlbumModal,
+      AddArtistModal,
       EditSongModal
     },
     data() {
@@ -96,6 +111,16 @@
       async fetchSongs() {
         await this.fetchData(); // Re-fetch data to update the song list
         this.selectedSong = null; // Reset selected song after editing
+      },
+
+      // Fetch artists after adding a new artist
+      async fetchArtists() {
+        await this.fetchData(); // Refresh the list of artists
+      },
+
+      // Fetch albums after adding a new album
+      async fetchAlbums() {
+        await this.fetchData(); // Refresh the list of albums
       }
     }
   };

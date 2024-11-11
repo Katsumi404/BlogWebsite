@@ -97,7 +97,56 @@ def update_song(request, song_id):
         return JsonResponse({'error': 'Song not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-    
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def create_artist(request):
+    try:
+        data = json.loads(request.body)
+        artist_name = data.get("artist_name")
+
+        if not artist_name:
+            return JsonResponse({'error': 'Artist name is required'}, status=400)
+
+        # Create the artist if the name is provided
+        artist = Artist.objects.create(artist_name=artist_name)
+
+        return JsonResponse({
+            'artist_id': artist.artist_id,
+            'artist_name': artist.artist_name
+        }, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def create_album(request):
+    try:
+        data = json.loads(request.body)
+        artist_id = data.get("artist")
+        artist = Artist.objects.get(artist_id=artist_id)
+
+        album = Album.objects.create(
+            album_title=data.get("album_title"),
+            artist=artist  
+        )
+
+        return JsonResponse({
+            'album_id': album.album_id,
+            'album_title': album.album_title,
+            'artist': {
+                'artist_id': album.artist.artist_id,
+                'artist_name': album.artist.artist_name
+            },
+        }, status=201)
+    except Artist.DoesNotExist:
+        return JsonResponse({'error': 'Artist not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
 @csrf_exempt
 @require_http_methods(["POST"])
 def create_song(request):
