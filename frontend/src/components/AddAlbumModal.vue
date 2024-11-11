@@ -67,7 +67,6 @@ export default {
                 });
                 if (response.ok) {
                     this.$emit('album-added'); 
-                    $('#addAlbumModal').modal('hide'); 
                     window.location.reload()
                     this.resetForm(); 
                 } else {

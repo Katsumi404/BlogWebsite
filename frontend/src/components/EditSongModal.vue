@@ -45,24 +45,28 @@
     props: {
       artists: Array,
       albums: Array,
-      songToEdit: Object // prop to receive song data from parent
+      songToEdit: Object
     },
+
     data() {
       return {
         currentSong: { song_title: '', artist: { artist_id: null }, album: { album_id: null } },
         filteredAlbums: []
       };
     },
+
+    // Waits to see when artist changes so it can show the relevant albums
     watch: {
-      // Watch for changes in the songToEdit prop to update the form when a new song is selected
       songToEdit(newSong) {
         if (newSong) {
-          this.currentSong = { ...newSong }; // Copy the song data to avoid mutations
-          this.filterAlbums(); // Filter albums based on the selected artist
+          this.currentSong = { ...newSong };
+          this.filterAlbums();
         }
       }
     },
+
     methods: {
+      // Filters all albums into a new (kinda since it's in data) array, where only the songs from the artist is
       filterAlbums() {
         if (this.currentSong.artist.artist_id) {
           this.filteredAlbums = this.albums.filter(album => album.artist.artist_id === this.currentSong.artist.artist_id);
@@ -70,10 +74,14 @@
           this.filteredAlbums = [];
         }
       },
+
+      //clears the form
       resetForm() {
         this.currentSong = { song_title: '', artist: { artist_id: null }, album: { album_id: null } };
         this.filteredAlbums = [];
       },
+
+      // Changes the song information
       async updateSong() {
         const updateUrl = `http://localhost:8000/api/songs/update/${this.currentSong.song_id}/`;
         const updatedData = {
@@ -93,8 +101,8 @@
             body: JSON.stringify(updatedData)
           });
           if (response.ok) {
-            this.$emit('song-updated'); // Emit event to parent to update the song list
-            $('#editSongModal').modal('hide'); // Close modal after saving
+            this.$emit('song-updated'); 
+            $('#editSongModal').modal('hide');
           } else {
             console.error('Failed to update song');
           }
@@ -102,6 +110,8 @@
           console.error('Error updating song:', error);
         }
       },
+
+      // Deletes the song using the song id
       async deleteSong() {
             const deleteUrl = `http://localhost:8000/api/songs/delete/${this.currentSong.song_id}/`;
             try {
@@ -114,7 +124,6 @@
                     credentials: 'same-origin',
                 });
                 if (response.ok) {
-                    // Remove the song from the local list
                     window.location.reload()
                     console.log('Song deleted successfully');
                 } else {

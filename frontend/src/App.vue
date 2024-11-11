@@ -2,7 +2,7 @@
     <div class="container pt-3">
       <div class="h1 text-center border rounded bg-light p-2 mb-3">Song List</div>
   
-      <!-- Add Song Button triggers AddSongModal -->
+      <!-- Add Song/Album/Artist Buttons -->
       <div class="d-flex gap-2 mb-3">
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addArtistModal">Add Artist</button>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAlbumModal">Add Album</button>
@@ -57,29 +57,34 @@
   </template>
   
   <script>
+  // Fetching Components from component folder
   import AddSongModal from './components/AddSongModal.vue';
   import AddAlbumModal from './components/AddAlbumModal.vue';
   import AddArtistModal from './components/AddArtistModal.vue';
   import EditSongModal from './components/EditSongModal.vue';
   
   export default {
+    // Exporting Components
     components: {
       AddSongModal,
       AddAlbumModal,
       AddArtistModal,
       EditSongModal
     },
+
     data() {
       return {
         songs: [],
         artists: [],
         albums: [],
-        selectedSong: null, // This will store the song being edited
+        selectedSong: null, 
       };
     },
+
     async mounted() {
       await this.fetchData();
     },
+
     methods: {
       // Fetch the songs, artists, and albums
       async fetchData() {
@@ -104,23 +109,23 @@
   
       // Prepare song data to be edited
       prepareEdit(song) {
-        this.selectedSong = { ...song }; // Copy song data to avoid mutation
+        this.selectedSong = { ...song };
       },
   
       // Method to fetch songs after adding or updating a song
       async fetchSongs() {
-        await this.fetchData(); // Re-fetch data to update the song list
-        this.selectedSong = null; // Reset selected song after editing
+        await this.fetchData(); 
+        this.selectedSong = null; 
       },
 
-      // Fetch artists after adding a new artist
+      // Method to fetch artist after adding an artist
       async fetchArtists() {
-        await this.fetchData(); // Refresh the list of artists
+        await this.fetchData(); 
       },
 
-      // Fetch albums after adding a new album
+      // Method to fetch artist after adding an album
       async fetchAlbums() {
-        await this.fetchData(); // Refresh the list of albums
+        await this.fetchData(); 
       }
     }
   };

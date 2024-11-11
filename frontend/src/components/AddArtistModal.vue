@@ -32,10 +32,12 @@ export default {
     },
 
     methods: {
+        // Resets the form information
         resetForm() {
             this.artistName = '';
         },
 
+        // Adds artist to list of artists
         async createArtist() {
             const createUrl = `http://localhost:8000/api/artists/create/`;
             const data = {

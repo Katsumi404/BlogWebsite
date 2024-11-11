@@ -45,6 +45,7 @@ export default {
         artists: Array,
         albums: Array
     },
+
     data() {
         return {
             currentSong: {
@@ -57,6 +58,7 @@ export default {
     },
     
     methods: {
+        // Filters all albums into a new (kinda since it's in data) array, where only the songs from the artist is
         filterAlbums() {
             if (this.currentSong.artist.artist_id) {
                 this.filteredAlbums = this.albums.filter(album => album.artist.artist_id === this.currentSong.artist.artist_id);
@@ -65,11 +67,13 @@ export default {
             }
         },
 
+        // Resets the form information
         resetForm() {
             this.currentSong = { song_title: '', artist: { artist_id: null }, album: { album_id: null } };
             this.filteredAlbums = [];
         },
 
+        // Adds artist to list of songs
         async create_song() {
             const createUrl = `http://localhost:8000/api/songs/create/`;
             const updatedData = {
@@ -89,7 +93,7 @@ export default {
                     body: JSON.stringify(updatedData)
                 });
                 if (response.ok) {
-                    this.$emit('song-added'); // Emit event to parent when song is added
+                    this.$emit('song-added');
                     window.location.reload()
                 } else {
                     console.error('Failed to add song');
