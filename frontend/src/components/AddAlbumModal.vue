@@ -43,11 +43,13 @@ export default {
         };
     },
     methods: {
+        // Resets the form information
         resetForm() {
             this.albumTitle = '';
             this.currentArtist = null;  
         },
 
+        // Adds artist to list of albums
         async createAlbum() {
             const createUrl = `http://localhost:8000/api/albums/create/`;
             const data = {
